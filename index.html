@@ -23,7 +23,7 @@
             flex-direction: column;
         }
         
-        /* 交易看板 - 只调整宽度 */
+        /* 交易看板 */
         .trading-section {
             height: 50vh;
             background: #000;
@@ -33,11 +33,11 @@
         }
         
         .trading-iframe-wrapper {
-            width: 120%; /* 初始宽度120% */
-            height: 100%; /* 高度保持100%不变 */
+            width: 100%;
+            height: 100%;
             position: absolute;
             top: 0;
-            left: -10%; /* 居中调整 */
+            left: 0;
             z-index: 30;
         }
         
@@ -216,32 +216,30 @@
             border: none;
         }
         
-        /* 调试信息 */
-        .debug-info {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0,0,0,0.8);
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.7em;
-            z-index: 1000;
-            color: #4ecdc4;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .speaking {
+            animation: textGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+            50% { text-shadow: 0 0 15px rgba(78, 205, 196, 0.8); }
         }
     </style>
 </head>
 <body>
     <div class="mobile-live-container">
-        <!-- 调试信息 -->
-        <div class="debug-info" id="debugInfo">宽度: 120%</div>
-        
         <!-- 上部：音乐交易看板 -->
         <div class="trading-section">
-            <div class="trading-iframe-wrapper" id="tradingWrapper">
+            <div class="trading-iframe-wrapper">
                 <iframe 
                     class="embedded-frame" 
                     id="tradingIframe"
-                    src="https://your-trading-board.vercel.app"
+                    src="https://trading-live-widget.vercel.app/"
                     allow="autoplay">
                 </iframe>
             </div>
@@ -282,83 +280,15 @@
         <div class="interactive-panel" id="interactivePanel">
             <button class="interactive-btn" onclick="toggleSpeech()">🎤 语音开关</button>
             <button class="interactive-btn" onclick="changeTopic()">🔄 切换话题</button>
-            <button class="interactive-btn" onclick="adjustWidth(10)">➕ 增加宽度</button>
-            <button class="interactive-btn" onclick="adjustWidth(-10)">➖ 减少宽度</button>
-            <button class="interactive-btn" onclick="resetWidth()">🔄 重置宽度</button>
-            <button class="interactive-btn" onclick="testWidths()">🎯 快速测试</button>
         </div>
     </div>
 
     <script>
-        // 配置 - 请替换为您的实际Vercel URL
+        // 配置
         const CONFIG = {
             tradingBoardUrl: "https://trading-live-widget.vercel.app/",
             autoPlay: true
         };
-
-        // 宽度控制 - 只调整宽度，高度不变
-        let currentWidth = 120; // 百分比
-        let currentLeft = -10; // 居中偏移
-
-        function updateDebugInfo() {
-            document.getElementById('debugInfo').textContent = 
-                `宽度: ${currentWidth}% | 双击调整`;
-        }
-
-        function adjustWidth(delta) {
-            currentWidth += delta;
-            currentLeft -= delta / 2; // 自动调整居中
-            
-            // 限制范围
-            currentWidth = Math.max(100, Math.min(200, currentWidth));
-            
-            const wrapper = document.getElementById('tradingWrapper');
-            wrapper.style.width = currentWidth + '%';
-            wrapper.style.left = currentLeft + '%';
-            
-            updateDebugInfo();
-            interactiveSystem.hidePanel();
-        }
-
-        function resetWidth() {
-            currentWidth = 120;
-            currentLeft = -10;
-            
-            const wrapper = document.getElementById('tradingWrapper');
-            wrapper.style.width = currentWidth + '%';
-            wrapper.style.left = currentLeft + '%';
-            
-            updateDebugInfo();
-            interactiveSystem.hidePanel();
-        }
-
-        // 快速测试不同宽度
-        function testWidths() {
-            const testWidths = [100, 130, 150, 180];
-            let testIndex = 0;
-            
-            const testInterval = setInterval(() => {
-                if (testIndex < testWidths.length) {
-                    currentWidth = testWidths[testIndex];
-                    currentLeft = -((currentWidth - 100) / 2);
-                    
-                    const wrapper = document.getElementById('tradingWrapper');
-                    wrapper.style.width = currentWidth + '%';
-                    wrapper.style.left = currentLeft + '%';
-                    
-                    document.getElementById('debugInfo').textContent = 
-                        `测试中: ${currentWidth}% (${testIndex + 1}/${testWidths.length})`;
-                    
-                    testIndex++;
-                } else {
-                    clearInterval(testInterval);
-                    resetWidth();
-                    document.getElementById('debugInfo').textContent = '测试完成，已重置';
-                }
-            }, 2000);
-            
-            interactiveSystem.hidePanel();
-        }
 
         // 新闻数据
         const newsData = [
@@ -521,15 +451,9 @@
 
         // 初始化函数
         function init() {
-            console.log('开始初始化直播模板...');
-            
             // 更新iframe地址
             const iframe = document.getElementById('tradingIframe');
             iframe.src = CONFIG.tradingBoardUrl;
-            
-            iframe.addEventListener('load', function() {
-                console.log('交易看板加载完成');
-            });
 
             // 初始化系统
             speechSystem = new SpeechSystem();
@@ -540,15 +464,10 @@
             initNewsScroll();
             interactiveSystem.init();
             
-            // 更新调试信息
-            updateDebugInfo();
-            
             // 启动自动语音播报
             if (CONFIG.autoPlay) {
                 startAutoSpeech();
             }
-            
-            console.log('直播模板初始化完成 - 使用独立宽度调整');
         }
 
         function startAutoSpeech() {
