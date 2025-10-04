@@ -23,9 +23,9 @@
             flex-direction: column;
         }
         
-        /* 交易看板 */
+        /* 交易看板 - 增加高度 */
         .trading-section {
-            height: 50vh;
+            height: 57vh; /* 增加高度 */
             background: #000;
             position: relative;
             overflow: hidden;
@@ -41,9 +41,9 @@
             z-index: 30;
         }
         
-        /* 新闻部分 */
+        /* 新闻部分 - 减少高度 */
         .news-section {
-            height: 15vh;
+            height: 8vh; /* 大幅减少高度 */
             background: #1a1a2e;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
@@ -64,37 +64,38 @@
         .news-content {
             position: absolute;
             white-space: nowrap;
-            animation: scrollNews 35s linear infinite;
+            animation: scrollNews 30s linear infinite; /* 加快滚动速度 */
         }
         
         .news-item {
             display: inline-block;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            padding: 10px 20px;
-            border-radius: 8px;
-            margin-right: 25px;
-            border-left: 4px solid #4ecdc4;
-            min-width: 320px;
+            padding: 5px 12px; /* 减少内边距 */
+            border-radius: 5px;
+            margin-right: 15px;
+            border-left: 3px solid #4ecdc4;
+            min-width: 260px; /* 减少最小宽度 */
         }
         
         .news-title {
-            font-size: 1em;
+            font-size: 0.8em; /* 减小字体 */
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 1px;
             color: white;
+            line-height: 1.1;
         }
         
         .news-meta {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8em;
+            font-size: 0.65em; /* 减小字体 */
             opacity: 0.8;
         }
         
         .news-source {
             background: rgba(255, 255, 255, 0.2);
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 1px 5px;
+            border-radius: 3px;
         }
         
         .news-time {
@@ -111,6 +112,7 @@
             }
         }
         
+        /* AI部分保持35vh不变 */
         .ai-section {
             height: 35vh;
             background: #0c0c0c;
@@ -245,7 +247,7 @@
             </div>
         </div>
         
-        <!-- 中部：新闻滚动条 -->
+        <!-- 中部：新闻滚动条（高度减少） -->
         <div class="news-section">
             <div class="news-scroll-container">
                 <div class="news-content" id="newsContent">
