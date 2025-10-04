@@ -23,27 +23,25 @@
             flex-direction: column;
         }
         
-        /* 重置交易看板为合理尺寸 */
+        /* 交易看板 - 只调整宽度 */
         .trading-section {
             height: 50vh;
             background: #000;
             position: relative;
-            overflow: hidden; /* 改回hidden */
+            overflow: hidden;
             z-index: 20;
         }
         
         .trading-iframe-wrapper {
-            width: 100%; /* 重置为100% */
-            height: 100%;
+            width: 120%; /* 初始宽度120% */
+            height: 100%; /* 高度保持100%不变 */
             position: absolute;
             top: 0;
-            left: 0;
-            transform: scale(1.2); /* 适度放大 */
-            transform-origin: top left;
+            left: -10%; /* 居中调整 */
             z-index: 30;
         }
         
-        /* 重置新闻部分 */
+        /* 新闻部分 */
         .news-section {
             height: 15vh;
             background: #1a1a2e;
@@ -218,20 +216,6 @@
             border: none;
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        
-        .speaking {
-            animation: textGlow 2s ease-in-out infinite;
-        }
-        
-        @keyframes textGlow {
-            0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
-            50% { text-shadow: 0 0 15px rgba(78, 205, 196, 0.8); }
-        }
-
         /* 调试信息 */
         .debug-info {
             position: absolute;
@@ -249,11 +233,11 @@
 <body>
     <div class="mobile-live-container">
         <!-- 调试信息 -->
-        <div class="debug-info" id="debugInfo">加载中...</div>
+        <div class="debug-info" id="debugInfo">宽度: 120%</div>
         
         <!-- 上部：音乐交易看板 -->
         <div class="trading-section">
-            <div class="trading-iframe-wrapper">
+            <div class="trading-iframe-wrapper" id="tradingWrapper">
                 <iframe 
                     class="embedded-frame" 
                     id="tradingIframe"
@@ -298,44 +282,81 @@
         <div class="interactive-panel" id="interactivePanel">
             <button class="interactive-btn" onclick="toggleSpeech()">🎤 语音开关</button>
             <button class="interactive-btn" onclick="changeTopic()">🔄 切换话题</button>
-            <button class="interactive-btn" onclick="adjustScale(0.1)">➕ 放大看板</button>
-            <button class="interactive-btn" onclick="adjustScale(-0.1)">➖ 缩小看板</button>
-            <button class="interactive-btn" onclick="resetScale()">🔄 重置尺寸</button>
+            <button class="interactive-btn" onclick="adjustWidth(10)">➕ 增加宽度</button>
+            <button class="interactive-btn" onclick="adjustWidth(-10)">➖ 减少宽度</button>
+            <button class="interactive-btn" onclick="resetWidth()">🔄 重置宽度</button>
+            <button class="interactive-btn" onclick="testWidths()">🎯 快速测试</button>
         </div>
     </div>
 
     <script>
         // 配置 - 请替换为您的实际Vercel URL
         const CONFIG = {
-            tradingBoardUrl: "https://trading-live-widget.vercel.app/",
+            tradingBoardUrl: "https://https://trading-live-widget.vercel.app/",
             autoPlay: true
         };
 
-        // 尺寸控制
-        let currentScale = 1.2;
+        // 宽度控制 - 只调整宽度，高度不变
+        let currentWidth = 120; // 百分比
+        let currentLeft = -10; // 居中偏移
 
         function updateDebugInfo() {
             document.getElementById('debugInfo').textContent = 
-                `缩放: ${currentScale.toFixed(1)}x | 双击屏幕调整`;
+                `宽度: ${currentWidth}% | 双击调整`;
         }
 
-        function adjustScale(delta) {
-            currentScale += delta;
-            currentScale = Math.max(0.8, Math.min(2.0, currentScale)); // 限制范围
+        function adjustWidth(delta) {
+            currentWidth += delta;
+            currentLeft -= delta / 2; // 自动调整居中
             
-            const wrapper = document.querySelector('.trading-iframe-wrapper');
-            wrapper.style.transform = `scale(${currentScale})`;
+            // 限制范围
+            currentWidth = Math.max(100, Math.min(200, currentWidth));
+            
+            const wrapper = document.getElementById('tradingWrapper');
+            wrapper.style.width = currentWidth + '%';
+            wrapper.style.left = currentLeft + '%';
             
             updateDebugInfo();
             interactiveSystem.hidePanel();
         }
 
-        function resetScale() {
-            currentScale = 1.2;
-            const wrapper = document.querySelector('.trading-iframe-wrapper');
-            wrapper.style.transform = `scale(${currentScale})`;
+        function resetWidth() {
+            currentWidth = 120;
+            currentLeft = -10;
+            
+            const wrapper = document.getElementById('tradingWrapper');
+            wrapper.style.width = currentWidth + '%';
+            wrapper.style.left = currentLeft + '%';
             
             updateDebugInfo();
+            interactiveSystem.hidePanel();
+        }
+
+        // 快速测试不同宽度
+        function testWidths() {
+            const testWidths = [100, 130, 150, 180];
+            let testIndex = 0;
+            
+            const testInterval = setInterval(() => {
+                if (testIndex < testWidths.length) {
+                    currentWidth = testWidths[testIndex];
+                    currentLeft = -((currentWidth - 100) / 2);
+                    
+                    const wrapper = document.getElementById('tradingWrapper');
+                    wrapper.style.width = currentWidth + '%';
+                    wrapper.style.left = currentLeft + '%';
+                    
+                    document.getElementById('debugInfo').textContent = 
+                        `测试中: ${currentWidth}% (${testIndex + 1}/${testWidths.length})`;
+                    
+                    testIndex++;
+                } else {
+                    clearInterval(testInterval);
+                    resetWidth();
+                    document.getElementById('debugInfo').textContent = '测试完成，已重置';
+                }
+            }, 2000);
+            
             interactiveSystem.hidePanel();
         }
 
@@ -377,10 +398,7 @@
                 </div>
             `).join('');
             
-            // 复制内容创建无缝循环
             newsContent.innerHTML = newsItemsHTML + newsItemsHTML;
-            
-            console.log('新闻滚动初始化完成，项目数:', newsData.length);
         }
 
         // 语音合成系统
@@ -511,12 +529,6 @@
             
             iframe.addEventListener('load', function() {
                 console.log('交易看板加载完成');
-                document.getElementById('debugInfo').textContent += ' | 看板已加载';
-            });
-            
-            iframe.addEventListener('error', function() {
-                console.error('交易看板加载失败');
-                document.getElementById('debugInfo').textContent += ' | 看板加载失败';
             });
 
             // 初始化系统
@@ -536,7 +548,7 @@
                 startAutoSpeech();
             }
             
-            console.log('阳明侠直播模板初始化完成');
+            console.log('直播模板初始化完成 - 使用独立宽度调整');
         }
 
         function startAutoSpeech() {
@@ -577,12 +589,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', init);
-
-        // 错误处理
-        window.addEventListener('error', function(e) {
-            console.error('模板错误:', e.error);
-            document.getElementById('debugInfo').textContent = '错误: ' + e.message;
-        });
     </script>
 </body>
 </html>
