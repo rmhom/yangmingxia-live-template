@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阳明侠每日一说 - 直播模板</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: #000;
+            color: #ffffff;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+        
+        /* 主容器 - 手机竖屏优化 */
+        .mobile-live-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 上部：音乐交易看板 (50%) */
+        .trading-section {
+            height: 50vh;
+            background: #000;
+            border-bottom: 2px solid #333;
+        }
+        
+        /* 中部：新闻滚动条 (15%) */
+        .news-section {
+            height: 15vh;
+            background: #1a1a2e;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+        
+        /* 下部：AI内容区域 (35%) */
+        .ai-section {
+            height: 35vh;
+            background: #0c0c0c;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            position: relative;
+        }
+        
+        /* AI内容样式 */
+        .ai-content {
+            flex: 1;
+            padding: 0 20px;
+            text-align: center;
+        }
+        
+        .daily-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .ai-character {
+            width: 120px;
+            height: 120px;
+            position: relative;
+        }
+        
+        .ai-avatar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            border: 3px solid #4ecdc4;
+        }
+        
+        .ai-name {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            border: 1px solid #4ecdc4;
+        }
+        
+        .speech-status {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        /* 隐藏互动区域 */
+        .interactive-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .interactive-panel {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #4ecdc4;
+            display: none;
+            z-index: 101;
+        }
+        
+        .interactive-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            padding: 8px 15px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: block;
+            width: 100%;
+        }
+        
+        /* 嵌入iframe样式 */
+        .embedded-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* 动画效果 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .speaking {
+            animation: textGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(78, 205, 196, 0.8); }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-live-container">
+        <!-- 上部：音乐交易看板 -->
+        <div class="trading-section">
+            <iframe 
+                class="embedded-frame" 
+                src="您的交易看板VercelURL"
+                allow="autoplay">
+            </iframe>
+        </div>
+        
+        <!-- 中部：新闻滚动条 -->
+        <div class="news-section">
+            <iframe 
+                class="embedded-frame" 
+                src="您的新闻滚动条VercelURL">
+            </iframe>
+        </div>
+        
+        <!-- 下部：AI内容区域 -->
+        <div class="ai-section">
+            <div class="ai-content">
+                <div class="daily-title" id="dailyTitle">
+                    阳明侠每日一说：智能投资新机遇
+                </div>
+                <div class="speech-status" id="speechStatus">
+                    🎙️ AI语音播报准备中...
+                </div>
+            </div>
+            
+            <div class="ai-character">
+                <div class="ai-avatar" id="aiAvatar">
+                    🤖
+                </div>
+                <div class="ai-name">
+                    阳明侠
+                </div>
+            </div>
+        </div>
+        
+        <!-- 隐藏互动层 -->
+        <div class="interactive-overlay" id="interactiveOverlay"></div>
+        <div class="interactive-panel" id="interactivePanel">
+            <button class="interactive-btn" onclick="toggleSpeech()">🎤 语音开关</button>
+            <button class="interactive-btn" onclick="changeTopic()">🔄 切换话题</button>
+            <button class="interactive-btn" onclick="toggleDebug()">🐛 调试信息</button>
+        </div>
+    </div>
+
+    <script>
+        // 配置您的Vercel部署地址
+        const CONFIG = {
+            tradingBoardUrl: "https://您的交易看板.vercel.app",  // 替换为您的实际地址
+            newsTickerUrl: "https://您的新闻滚动条.vercel.app",   // 替换为您的实际地址
+            autoPlay: true
+        };
+
+        // 语音合成系统
+        class SpeechSystem {
+            constructor() {
+                this.synth = window.speechSynthesis;
+                this.isSpeaking = false;
+                this.currentUtterance = null;
+            }
+            
+            speak(text) {
+                if (this.isSpeaking) {
+                    this.stop();
+                }
+                
+                this.currentUtterance = new SpeechSynthesisUtterance(text);
+                this.currentUtterance.rate = 0.9;
+                this.currentUtterance.pitch = 1;
+                this.currentUtterance.volume = 0.7;
+                
+                this.currentUtterance.onstart = () => {
+                    this.isSpeaking = true;
+                    this.updateSpeechUI(true);
+                };
+                
+                this.currentUtterance.onend = () => {
+                    this.isSpeaking = false;
+                    this.updateSpeechUI(false);
+                };
+                
+                this.synth.speak(this.currentUtterance);
+            }
+            
+            stop() {
+                if (this.isSpeaking) {
+                    this.synth.cancel();
+                    this.isSpeaking = false;
+                    this.updateSpeechUI(false);
+                }
+            }
+            
+            updateSpeechUI(speaking) {
+                const title = document.getElementById('dailyTitle');
+                const status = document.getElementById('speechStatus');
+                const avatar = document.getElementById('aiAvatar');
+                
+                if (speaking) {
+                    title.classList.add('speaking');
+                    status.textContent = '🎙️ AI语音播报中...';
+                    avatar.style.animation = 'float 2s ease-in-out infinite';
+                } else {
+                    title.classList.remove('speaking');
+                    status.textContent = '✅ 语音播报完成';
+                    avatar.style.animation = 'none';
+                }
+            }
+        }
+
+        // 话题管理系统
+        class TopicManager {
+            constructor() {
+                this.topics = [
+                    "阳明侠每日一说：智能投资时代，算法交易正在改变市场格局",
+                    "阳明侠每日一说：区块链技术不仅仅是加密货币，更是信任的机器",
+                    "阳明侠每日一说：人工智能在金融风控中的应用前景广阔",
+                    "阳明侠每日一说：DeFi去中心化金融正在重构传统金融体系",
+                    "阳明侠每日一说：量化投资策略在波动市场中的优势分析"
+                ];
+                this.currentIndex = 0;
+            }
+            
+            getCurrentTopic() {
+                return this.topics[this.currentIndex];
+            }
+            
+            nextTopic() {
+                this.currentIndex = (this.currentIndex + 1) % this.topics.length;
+                return this.getCurrentTopic();
+            }
+        }
+
+        // 互动系统
+        class InteractiveSystem {
+            constructor() {
+                this.isPanelVisible = false;
+                this.tapCount = 0;
+                this.lastTapTime = 0;
+            }
+            
+            init() {
+                const overlay = document.getElementById('interactiveOverlay');
+                const panel = document.getElementById('interactivePanel');
+                
+                overlay.addEventListener('click', (e) => {
+                    const currentTime = new Date().getTime();
+                    const tapInterval = currentTime - this.lastTapTime;
+                    
+                    if (tapInterval < 300 && tapInterval > 0) {
+                        this.togglePanel();
+                    }
+                    
+                    this.lastTapTime = currentTime;
+                });
+                
+                // 点击面板外部关闭
+                document.addEventListener('click', (e) => {
+                    if (!panel.contains(e.target) && !overlay.contains(e.target)) {
+                        this.hidePanel();
+                    }
+                });
+            }
+            
+            togglePanel() {
+                const panel = document.getElementById('interactivePanel');
+                this.isPanelVisible = !this.isPanelVisible;
+                panel.style.display = this.isPanelVisible ? 'block' : 'none';
+            }
+            
+            hidePanel() {
+                const panel = document.getElementById('interactivePanel');
+                panel.style.display = 'none';
+                this.isPanelVisible = false;
+            }
+        }
+
+        // 全局变量
+        let speechSystem;
+        let topicManager;
+        let interactiveSystem;
+        let speechInterval;
+
+        // 初始化函数
+        function init() {
+            // 更新iframe地址
+            document.querySelector('.trading-section iframe').src = CONFIG.tradingBoardUrl;
+            document.querySelector('.news-section iframe').src = CONFIG.newsTickerUrl;
+            
+            // 初始化系统
+            speechSystem = new SpeechSystem();
+            topicManager = new TopicManager();
+            interactiveSystem = new InteractiveSystem();
+            
+            interactiveSystem.init();
+            
+            // 启动自动语音播报
+            if (CONFIG.autoPlay) {
+                startAutoSpeech();
+            }
+            
+            console.log('阳明侠直播模板初始化完成');
+            console.log('交易看板:', CONFIG.tradingBoardUrl);
+            console.log('新闻滚动:', CONFIG.newsTickerUrl);
+        }
+
+        // 开始自动语音播报
+        function startAutoSpeech() {
+            // 立即开始第一次播报
+            speakCurrentTopic();
+            
+            // 每45秒播报一次
+            speechInterval = setInterval(() => {
+                speakCurrentTopic();
+            }, 45000);
+        }
+
+        // 播报当前话题
+        function speakCurrentTopic() {
+            const topic = topicManager.getCurrentTopic();
+            document.getElementById('dailyTitle').textContent = topic;
+            speechSystem.speak(topic);
+        }
+
+        // 交互功能
+        function toggleSpeech() {
+            if (speechSystem.isSpeaking) {
+                speechSystem.stop();
+            } else {
+                speakCurrentTopic();
+            }
+            interactiveSystem.hidePanel();
+        }
+
+        function changeTopic() {
+            speechSystem.stop();
+            const newTopic = topicManager.nextTopic();
+            document.getElementById('dailyTitle').textContent = newTopic;
+            speechSystem.speak(newTopic);
+            interactiveSystem.hidePanel();
+        }
+
+        function toggleDebug() {
+            const status = document.getElementById('speechStatus');
+            if (status.textContent.includes('调试')) {
+                status.textContent = '🎙️ AI语音播准备中...';
+            } else {
+                status.textContent = `🐛 调试模式 | 话题: ${topicManager.currentIndex + 1}/${topicManager.topics.length}`;
+            }
+            interactiveSystem.hidePanel();
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('直播模板错误:', e.error);
+        });
+    </script>
+</body>
+</html>
