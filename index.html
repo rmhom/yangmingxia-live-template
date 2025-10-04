@@ -16,7 +16,6 @@
             position: relative;
         }
         
-        /* 主容器 - 手机竖屏优化 */
         .mobile-live-container {
             width: 100vw;
             height: 100vh;
@@ -24,14 +23,23 @@
             flex-direction: column;
         }
         
-        /* 上部：音乐交易看板 (50%) */
+        /* 修复交易看板部分 */
         .trading-section {
             height: 50vh;
             background: #000;
             border-bottom: 2px solid #333;
+            position: relative;
+            overflow: hidden;
         }
         
-        /* 中部：新闻滚动条 (15%) */
+        .trading-iframe-container {
+            width: 100%;
+            height: 100%;
+            transform: scale(1.15);
+            transform-origin: top left;
+        }
+        
+        /* 修复新闻滚动条部分 */
         .news-section {
             height: 15vh;
             background: #1a1a2e;
@@ -39,7 +47,70 @@
             overflow: hidden;
         }
         
-        /* 下部：AI内容区域 (35%) */
+        .news-scroll-container {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .news-content {
+            position: absolute;
+            white-space: nowrap;
+            animation: scrollNews 40s linear infinite;
+        }
+        
+        .news-item {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            padding: 12px 25px;
+            border-radius: 10px;
+            margin-right: 30px;
+            border-left: 4px solid #4ecdc4;
+            min-width: 350px;
+        }
+        
+        .news-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+        
+        .news-source {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        
+        .news-time {
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+        
+        @keyframes scrollNews {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        
+        .news-scroll-container:hover .news-content {
+            animation-play-state: paused;
+        }
+        
         .ai-section {
             height: 35vh;
             background: #0c0c0c;
@@ -50,7 +121,6 @@
             position: relative;
         }
         
-        /* AI内容样式 */
         .ai-content {
             flex: 1;
             padding: 0 20px;
@@ -102,7 +172,6 @@
             opacity: 0.9;
         }
         
-        /* 隐藏互动区域 */
         .interactive-overlay {
             position: absolute;
             top: 0;
@@ -139,14 +208,12 @@
             width: 100%;
         }
         
-        /* 嵌入iframe样式 */
         .embedded-frame {
             width: 100%;
             height: 100%;
             border: none;
         }
         
-        /* 动画效果 */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
@@ -166,19 +233,22 @@
     <div class="mobile-live-container">
         <!-- 上部：音乐交易看板 -->
         <div class="trading-section">
-            <iframe 
-                class="embedded-frame" 
-                src="您的交易看板VercelURL"
-                allow="autoplay">
-            </iframe>
+            <div class="trading-iframe-container">
+                <iframe 
+                    class="embedded-frame" 
+                    src="https://your-trading-board.vercel.app"
+                    allow="autoplay">
+                </iframe>
+            </div>
         </div>
         
         <!-- 中部：新闻滚动条 -->
         <div class="news-section">
-            <iframe 
-                class="embedded-frame" 
-                src="您的新闻滚动条VercelURL">
-            </iframe>
+            <div class="news-scroll-container">
+                <div class="news-content" id="newsContent">
+                    <!-- 新闻内容由JavaScript动态生成 -->
+                </div>
+            </div>
         </div>
         
         <!-- 下部：AI内容区域 -->
@@ -212,12 +282,60 @@
     </div>
 
     <script>
-        // 配置您的Vercel部署地址
+        // 配置 - 请替换为您的实际Vercel URL
         const CONFIG = {
-            tradingBoardUrl: "https://trading-live-widget.vercel.app/",  // 替换为您的实际地址
-            newsTickerUrl: "https://solid-octo-guide-ochre.vercel.app/",   // 替换为您的实际地址
+            tradingBoardUrl: "https://your-trading-board.vercel.app",
+            newsTickerUrl: "https://your-news-ticker.vercel.app",
             autoPlay: true
         };
+
+        // 新闻数据
+        const newsData = [
+            {
+                title: '🚀 比特币突破$118,590，24小时上涨3.28%',
+                source: '实时行情',
+                time: '刚刚'
+            },
+            {
+                title: '💎 以太坊DeFi生态活跃度大幅提升',
+                source: '区块链动态',
+                time: '2分钟前'
+            },
+            {
+                title: '🏦 美联储政策支撑数字资产上涨',
+                source: '政策分析',
+                time: '5分钟前'
+            },
+            {
+                title: '📈 加密货币总市值增长5.3%',
+                source: '市场分析',
+                time: '10分钟前'
+            },
+            {
+                title: '🔥 阳明侠直播：智能投资策略分享',
+                source: '直播动态',
+                time: '实时'
+            }
+        ];
+
+        // 初始化新闻滚动
+        function initNewsScroll() {
+            const newsContent = document.getElementById('newsContent');
+            
+            // 复制新闻项以创建无缝滚动
+            const newsItemsHTML = newsData.map(news => `
+                <div class="news-item">
+                    <div class="news-title">${news.title}</div>
+                    <div class="news-meta">
+                        <span class="news-source">${news.source}</span>
+                        <span class="news-time">${news.time}</span>
+                    </div>
+                </div>
+            `).join('');
+            
+            // 复制内容以创建无缝循环
+            newsContent.innerHTML = newsItemsHTML + newsItemsHTML;
+        }
 
         // 语音合成系统
         class SpeechSystem {
@@ -280,7 +398,7 @@
             constructor() {
                 this.topics = [
                     "阳明侠每日一说：智能投资时代，算法交易正在改变市场格局",
-                    "阳明侠每日一说：区块链技术不仅仅是加密货币，更是信任的机器",
+                    "阳明侠每日一说：区块链技术不仅仅是加密货币，更是信任的机器", 
                     "阳明侠每日一说：人工智能在金融风控中的应用前景广阔",
                     "阳明侠每日一说：DeFi去中心化金融正在重构传统金融体系",
                     "阳明侠每日一说：量化投资策略在波动市场中的优势分析"
@@ -321,7 +439,6 @@
                     this.lastTapTime = currentTime;
                 });
                 
-                // 点击面板外部关闭
                 document.addEventListener('click', (e) => {
                     if (!panel.contains(e.target) && !overlay.contains(e.target)) {
                         this.hidePanel();
@@ -352,13 +469,14 @@
         function init() {
             // 更新iframe地址
             document.querySelector('.trading-section iframe').src = CONFIG.tradingBoardUrl;
-            document.querySelector('.news-section iframe').src = CONFIG.newsTickerUrl;
             
             // 初始化系统
             speechSystem = new SpeechSystem();
             topicManager = new TopicManager();
             interactiveSystem = new InteractiveSystem();
             
+            // 初始化新闻滚动
+            initNewsScroll();
             interactiveSystem.init();
             
             // 启动自动语音播报
@@ -367,29 +485,22 @@
             }
             
             console.log('阳明侠直播模板初始化完成');
-            console.log('交易看板:', CONFIG.tradingBoardUrl);
-            console.log('新闻滚动:', CONFIG.newsTickerUrl);
         }
 
-        // 开始自动语音播报
         function startAutoSpeech() {
-            // 立即开始第一次播报
             speakCurrentTopic();
             
-            // 每45秒播报一次
             speechInterval = setInterval(() => {
                 speakCurrentTopic();
             }, 45000);
         }
 
-        // 播报当前话题
         function speakCurrentTopic() {
             const topic = topicManager.getCurrentTopic();
             document.getElementById('dailyTitle').textContent = topic;
             speechSystem.speak(topic);
         }
 
-        // 交互功能
         function toggleSpeech() {
             if (speechSystem.isSpeaking) {
                 speechSystem.stop();
@@ -417,10 +528,8 @@
             interactiveSystem.hidePanel();
         }
 
-        // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', init);
 
-        // 错误处理
         window.addEventListener('error', function(e) {
             console.error('直播模板错误:', e.error);
         });
