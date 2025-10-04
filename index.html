@@ -23,28 +23,34 @@
             flex-direction: column;
         }
         
-        /* 修复交易看板部分 */
+        /* 修复交易看板部分 - 直接放大iframe */
         .trading-section {
             height: 50vh;
             background: #000;
             border-bottom: 2px solid #333;
             position: relative;
             overflow: hidden;
+            z-index: 20; /* 提高层级 */
         }
         
-        .trading-iframe-container {
-            width: 100%;
+        .trading-iframe-wrapper {
+            width: 110%; /* 增加宽度 */
             height: 100%;
-            transform: scale(1.15);
-            transform-origin: top left;
+            position: absolute;
+            top: 0;
+            left: -5%; /* 居中调整 */
+            transform: scale(1.1); /* 额外缩放 */
+            transform-origin: top center;
         }
         
-        /* 修复新闻滚动条部分 */
+        /* 修复新闻滚动条部分 - 降低层级 */
         .news-section {
             height: 15vh;
             background: #1a1a2e;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
+            position: relative;
+            z-index: 10; /* 降低层级，确保在交易看板下面 */
         }
         
         .news-scroll-container {
@@ -66,31 +72,31 @@
         .news-item {
             display: inline-block;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            padding: 12px 25px;
-            border-radius: 10px;
-            margin-right: 30px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-right: 25px;
             border-left: 4px solid #4ecdc4;
-            min-width: 350px;
+            min-width: 320px;
         }
         
         .news-title {
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             color: white;
         }
         
         .news-meta {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85em;
+            font-size: 0.8em;
             opacity: 0.8;
         }
         
         .news-source {
             background: rgba(255, 255, 255, 0.2);
-            padding: 3px 8px;
-            border-radius: 6px;
+            padding: 2px 6px;
+            border-radius: 4px;
         }
         
         .news-time {
@@ -119,6 +125,7 @@
             justify-content: space-between;
             padding: 15px;
             position: relative;
+            z-index: 15;
         }
         
         .ai-content {
@@ -128,18 +135,19 @@
         }
         
         .daily-title {
-            font-size: 1.8em;
+            font-size: 1.6em;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            line-height: 1.4;
         }
         
         .ai-character {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             position: relative;
         }
         
@@ -151,24 +159,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5em;
+            font-size: 2em;
             border: 3px solid #4ecdc4;
         }
         
         .ai-name {
             position: absolute;
-            bottom: -25px;
+            bottom: -20px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.8);
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 0.9em;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
             border: 1px solid #4ecdc4;
         }
         
         .speech-status {
-            font-size: 1.1em;
+            font-size: 1em;
             opacity: 0.9;
         }
         
@@ -185,11 +193,11 @@
         
         .interactive-panel {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            bottom: 15px;
+            right: 15px;
             background: rgba(0, 0, 0, 0.9);
-            padding: 15px;
-            border-radius: 10px;
+            padding: 12px;
+            border-radius: 8px;
             border: 1px solid #4ecdc4;
             display: none;
             z-index: 101;
@@ -198,12 +206,12 @@
         .interactive-btn {
             background: linear-gradient(45deg, #667eea, #764ba2);
             border: none;
-            border-radius: 20px;
+            border-radius: 15px;
             color: white;
-            padding: 8px 15px;
-            margin: 5px;
+            padding: 6px 12px;
+            margin: 4px 0;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.85em;
             display: block;
             width: 100%;
         }
@@ -216,7 +224,7 @@
         
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
         }
         
         .speaking {
@@ -227,13 +235,35 @@
             0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
             50% { text-shadow: 0 0 20px rgba(78, 205, 196, 0.8); }
         }
+
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .daily-title {
+                font-size: 1.3em;
+            }
+            
+            .ai-character {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .news-item {
+                min-width: 280px;
+                padding: 8px 15px;
+            }
+            
+            .trading-iframe-wrapper {
+                width: 115%;
+                left: -7.5%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="mobile-live-container">
         <!-- 上部：音乐交易看板 -->
         <div class="trading-section">
-            <div class="trading-iframe-container">
+            <div class="trading-iframe-wrapper">
                 <iframe 
                     class="embedded-frame" 
                     src="https://your-trading-board.vercel.app"
@@ -255,7 +285,7 @@
         <div class="ai-section">
             <div class="ai-content">
                 <div class="daily-title" id="dailyTitle">
-                    阳明侠每日一说：智能投资新机遇
+                    阳明侠每日一说：智能投资时代，算法交易正在改变市场格局
                 </div>
                 <div class="speech-status" id="speechStatus">
                     🎙️ AI语音播报准备中...
@@ -285,7 +315,6 @@
         // 配置 - 请替换为您的实际Vercel URL
         const CONFIG = {
             tradingBoardUrl: "https://trading-live-widget.vercel.app/",
-            newsTickerUrl: "https://solid-octo-guide-ochre.vercel.app/",
             autoPlay: true
         };
 
@@ -322,7 +351,6 @@
         function initNewsScroll() {
             const newsContent = document.getElementById('newsContent');
             
-            // 复制新闻项以创建无缝滚动
             const newsItemsHTML = newsData.map(news => `
                 <div class="news-item">
                     <div class="news-title">${news.title}</div>
@@ -467,8 +495,15 @@
 
         // 初始化函数
         function init() {
-            // 更新iframe地址
-            document.querySelector('.trading-section iframe').src = CONFIG.tradingBoardUrl;
+            // 更新iframe地址 - 使用您的实际交易看板URL
+            const iframe = document.querySelector('.trading-section iframe');
+            iframe.src = CONFIG.tradingBoardUrl;
+            
+            // 监听iframe加载完成
+            iframe.addEventListener('load', function() {
+                console.log('交易看板加载完成');
+                // 可以在这里添加额外的调整代码
+            });
             
             // 初始化系统
             speechSystem = new SpeechSystem();
@@ -485,10 +520,14 @@
             }
             
             console.log('阳明侠直播模板初始化完成');
+            console.log('交易看板URL:', CONFIG.tradingBoardUrl);
         }
 
         function startAutoSpeech() {
-            speakCurrentTopic();
+            // 延迟5秒开始第一次播报
+            setTimeout(() => {
+                speakCurrentTopic();
+            }, 5000);
             
             speechInterval = setInterval(() => {
                 speakCurrentTopic();
@@ -504,8 +543,14 @@
         function toggleSpeech() {
             if (speechSystem.isSpeaking) {
                 speechSystem.stop();
+                if (speechInterval) {
+                    clearInterval(speechInterval);
+                }
             } else {
                 speakCurrentTopic();
+                speechInterval = setInterval(() => {
+                    speakCurrentTopic();
+                }, 45000);
             }
             interactiveSystem.hidePanel();
         }
