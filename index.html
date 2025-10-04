@@ -23,27 +23,27 @@
             flex-direction: column;
         }
         
-        /* 最强放大方案 - 交易看板 */
+        /* 重置交易看板为合理尺寸 */
         .trading-section {
             height: 50vh;
             background: #000;
             position: relative;
-            overflow: visible;
-            z-index: 100;
+            overflow: hidden; /* 改回hidden */
+            z-index: 20;
         }
         
         .trading-iframe-wrapper {
-            width: 200%; /* 两倍宽度 */
-            height: 150%; /* 增加高度 */
+            width: 100%; /* 重置为100% */
+            height: 100%;
             position: absolute;
-            top: -25%; /* 向上移动 */
-            left: -50%; /* 向左移动 */
-            transform: scale(1.6); /* 大幅放大 */
-            transform-origin: top center;
-            z-index: 200;
+            top: 0;
+            left: 0;
+            transform: scale(1.2); /* 适度放大 */
+            transform-origin: top left;
+            z-index: 30;
         }
         
-        /* 新闻部分 - 确保在下面 */
+        /* 重置新闻部分 */
         .news-section {
             height: 15vh;
             background: #1a1a2e;
@@ -51,7 +51,6 @@
             overflow: hidden;
             position: relative;
             z-index: 10;
-            margin-top: -10vh; /* 向上重叠 */
         }
         
         .news-scroll-container {
@@ -67,36 +66,36 @@
         .news-content {
             position: absolute;
             white-space: nowrap;
-            animation: scrollNews 40s linear infinite;
+            animation: scrollNews 35s linear infinite;
         }
         
         .news-item {
             display: inline-block;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            padding: 8px 18px;
+            padding: 10px 20px;
             border-radius: 8px;
-            margin-right: 20px;
+            margin-right: 25px;
             border-left: 4px solid #4ecdc4;
-            min-width: 300px;
+            min-width: 320px;
         }
         
         .news-title {
-            font-size: 0.9em;
+            font-size: 1em;
             font-weight: 600;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
             color: white;
         }
         
         .news-meta {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75em;
+            font-size: 0.8em;
             opacity: 0.8;
         }
         
         .news-source {
             background: rgba(255, 255, 255, 0.2);
-            padding: 2px 6px;
+            padding: 2px 8px;
             border-radius: 4px;
         }
         
@@ -120,31 +119,31 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px;
+            padding: 15px;
             position: relative;
             z-index: 15;
         }
         
         .ai-content {
             flex: 1;
-            padding: 0 15px;
+            padding: 0 20px;
             text-align: center;
         }
         
         .daily-title {
-            font-size: 1.5em;
+            font-size: 1.6em;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            line-height: 1.3;
+            line-height: 1.4;
         }
         
         .ai-character {
-            width: 90px;
-            height: 90px;
+            width: 100px;
+            height: 100px;
             position: relative;
         }
         
@@ -156,7 +155,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8em;
+            font-size: 2em;
             border: 2px solid #4ecdc4;
         }
         
@@ -166,14 +165,14 @@
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.8);
-            padding: 3px 10px;
-            border-radius: 10px;
-            font-size: 0.75em;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
             border: 1px solid #4ecdc4;
         }
         
         .speech-status {
-            font-size: 0.9em;
+            font-size: 1em;
             opacity: 0.9;
         }
         
@@ -183,32 +182,32 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 300;
+            z-index: 100;
             opacity: 0;
             cursor: pointer;
         }
         
         .interactive-panel {
             position: absolute;
-            bottom: 10px;
-            right: 10px;
+            bottom: 15px;
+            right: 15px;
             background: rgba(0, 0, 0, 0.9);
-            padding: 10px;
-            border-radius: 6px;
+            padding: 12px;
+            border-radius: 8px;
             border: 1px solid #4ecdc4;
             display: none;
-            z-index: 400;
+            z-index: 200;
         }
         
         .interactive-btn {
             background: linear-gradient(45deg, #667eea, #764ba2);
             border: none;
-            border-radius: 12px;
+            border-radius: 15px;
             color: white;
-            padding: 5px 10px;
-            margin: 3px 0;
+            padding: 6px 12px;
+            margin: 4px 0;
             cursor: pointer;
-            font-size: 0.8em;
+            font-size: 0.85em;
             display: block;
             width: 100%;
         }
@@ -232,15 +231,32 @@
             0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
             50% { text-shadow: 0 0 15px rgba(78, 205, 196, 0.8); }
         }
+
+        /* 调试信息 */
+        .debug-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.7em;
+            z-index: 1000;
+            color: #4ecdc4;
+        }
     </style>
 </head>
 <body>
     <div class="mobile-live-container">
+        <!-- 调试信息 -->
+        <div class="debug-info" id="debugInfo">加载中...</div>
+        
         <!-- 上部：音乐交易看板 -->
         <div class="trading-section">
             <div class="trading-iframe-wrapper">
                 <iframe 
                     class="embedded-frame" 
+                    id="tradingIframe"
                     src="https://your-trading-board.vercel.app"
                     allow="autoplay">
                 </iframe>
@@ -282,17 +298,46 @@
         <div class="interactive-panel" id="interactivePanel">
             <button class="interactive-btn" onclick="toggleSpeech()">🎤 语音开关</button>
             <button class="interactive-btn" onclick="changeTopic()">🔄 切换话题</button>
-            <button class="interactive-btn" onclick="adjustTradingSize(0.1)">➕ 放大看板</button>
-            <button class="interactive-btn" onclick="adjustTradingSize(-0.1)">➖ 缩小看板</button>
+            <button class="interactive-btn" onclick="adjustScale(0.1)">➕ 放大看板</button>
+            <button class="interactive-btn" onclick="adjustScale(-0.1)">➖ 缩小看板</button>
+            <button class="interactive-btn" onclick="resetScale()">🔄 重置尺寸</button>
         </div>
     </div>
 
     <script>
         // 配置 - 请替换为您的实际Vercel URL
         const CONFIG = {
-            tradingBoardUrl: "https://trading-live-widget.vercel.app/",
+            tradingBoardUrl: "https://your-trading-board.vercel.app",
             autoPlay: true
         };
+
+        // 尺寸控制
+        let currentScale = 1.2;
+
+        function updateDebugInfo() {
+            document.getElementById('debugInfo').textContent = 
+                `缩放: ${currentScale.toFixed(1)}x | 双击屏幕调整`;
+        }
+
+        function adjustScale(delta) {
+            currentScale += delta;
+            currentScale = Math.max(0.8, Math.min(2.0, currentScale)); // 限制范围
+            
+            const wrapper = document.querySelector('.trading-iframe-wrapper');
+            wrapper.style.transform = `scale(${currentScale})`;
+            
+            updateDebugInfo();
+            interactiveSystem.hidePanel();
+        }
+
+        function resetScale() {
+            currentScale = 1.2;
+            const wrapper = document.querySelector('.trading-iframe-wrapper');
+            wrapper.style.transform = `scale(${currentScale})`;
+            
+            updateDebugInfo();
+            interactiveSystem.hidePanel();
+        }
 
         // 新闻数据
         const newsData = [
@@ -318,25 +363,6 @@
             }
         ];
 
-        // 交易看板尺寸控制
-        let tradingScale = 1.6;
-        let tradingWidth = 200;
-        let tradingLeft = -50;
-
-        function adjustTradingSize(delta) {
-            tradingScale += delta;
-            tradingWidth += delta * 10;
-            tradingLeft -= delta * 5;
-            
-            const wrapper = document.querySelector('.trading-iframe-wrapper');
-            wrapper.style.transform = `scale(${tradingScale})`;
-            wrapper.style.width = `${tradingWidth}%`;
-            wrapper.style.left = `${tradingLeft}%`;
-            
-            console.log(`交易看板尺寸调整: 缩放${tradingScale.toFixed(1)}, 宽度${tradingWidth}%`);
-            interactiveSystem.hidePanel();
-        }
-
         // 初始化新闻滚动
         function initNewsScroll() {
             const newsContent = document.getElementById('newsContent');
@@ -351,7 +377,10 @@
                 </div>
             `).join('');
             
+            // 复制内容创建无缝循环
             newsContent.innerHTML = newsItemsHTML + newsItemsHTML;
+            
+            console.log('新闻滚动初始化完成，项目数:', newsData.length);
         }
 
         // 语音合成系统
@@ -474,10 +503,22 @@
 
         // 初始化函数
         function init() {
+            console.log('开始初始化直播模板...');
+            
             // 更新iframe地址
-            const iframe = document.querySelector('.trading-section iframe');
+            const iframe = document.getElementById('tradingIframe');
             iframe.src = CONFIG.tradingBoardUrl;
             
+            iframe.addEventListener('load', function() {
+                console.log('交易看板加载完成');
+                document.getElementById('debugInfo').textContent += ' | 看板已加载';
+            });
+            
+            iframe.addEventListener('error', function() {
+                console.error('交易看板加载失败');
+                document.getElementById('debugInfo').textContent += ' | 看板加载失败';
+            });
+
             // 初始化系统
             speechSystem = new SpeechSystem();
             topicManager = new TopicManager();
@@ -487,18 +528,21 @@
             initNewsScroll();
             interactiveSystem.init();
             
+            // 更新调试信息
+            updateDebugInfo();
+            
             // 启动自动语音播报
             if (CONFIG.autoPlay) {
                 startAutoSpeech();
             }
             
-            console.log('阳明侠直播模板初始化完成 - 使用最强放大方案');
+            console.log('阳明侠直播模板初始化完成');
         }
 
         function startAutoSpeech() {
             setTimeout(() => {
                 speakCurrentTopic();
-            }, 5000);
+            }, 3000);
             
             speechInterval = setInterval(() => {
                 speakCurrentTopic();
@@ -533,6 +577,12 @@
         }
 
         document.addEventListener('DOMContentLoaded', init);
+
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('模板错误:', e.error);
+            document.getElementById('debugInfo').textContent = '错误: ' + e.message;
+        });
     </script>
 </body>
 </html>
