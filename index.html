@@ -8,7 +8,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            background: #000;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
             color: #ffffff;
             font-family: 'Microsoft YaHei', Arial, sans-serif;
             overflow: hidden;
@@ -23,32 +23,21 @@
             flex-direction: column;
         }
         
-        /* 交易看板 - 增加高度 */
+        /* 上部：交易看板 - 占60% */
         .trading-section {
-            height: 57vh; /* 增加高度 */
-            background: #000;
-            position: relative;
-            overflow: hidden;
-            z-index: 20;
-        }
-        
-        .trading-iframe-wrapper {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 30;
-        }
-        
-        /* 新闻部分 - 减少高度 */
-        .news-section {
-            height: 8vh; /* 大幅减少高度 */
-            background: #1a1a2e;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            overflow: hidden;
+            height: 60vh;
             position: relative;
             z-index: 10;
+        }
+        
+        /* 中部：新闻滚动条 - 精简高度 */
+        .news-section {
+            height: 6vh;
+            background: rgba(255, 255, 255, 0.03);
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            z-index: 5;
         }
         
         .news-scroll-container {
@@ -58,130 +47,133 @@
             position: relative;
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.05);
         }
         
         .news-content {
             position: absolute;
             white-space: nowrap;
-            animation: scrollNews 30s linear infinite; /* 加快滚动速度 */
+            animation: scrollNews 25s linear infinite;
         }
         
         .news-item {
             display: inline-block;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            padding: 5px 12px; /* 减少内边距 */
-            border-radius: 5px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            padding: 3px 12px;
+            border-radius: 12px;
             margin-right: 15px;
-            border-left: 3px solid #4ecdc4;
-            min-width: 260px; /* 减少最小宽度 */
+            border-left: 2px solid #4ecdc4;
         }
         
         .news-title {
-            font-size: 0.8em; /* 减小字体 */
+            font-size: 0.75em;
             font-weight: 600;
-            margin-bottom: 1px;
-            color: white;
-            line-height: 1.1;
-        }
-        
-        .news-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.65em; /* 减小字体 */
-            opacity: 0.8;
-        }
-        
-        .news-source {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 1px 5px;
-            border-radius: 3px;
-        }
-        
-        .news-time {
-            color: #4ecdc4;
-            font-weight: bold;
+            color: #e0e0e0;
         }
         
         @keyframes scrollNews {
-            0% {
-                transform: translateX(100%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
         
-        /* AI部分保持35vh不变 */
-        .ai-section {
-            height: 35vh;
-            background: #0c0c0c;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
+        /* 下部：内容区域 - 占34% */
+        .content-section {
+            height: 34vh;
+            background: rgba(10, 10, 20, 0.85);
             position: relative;
-            z-index: 15;
+            padding: 15px;
+            z-index: 8;
         }
         
-        .ai-content {
-            flex: 1;
-            padding: 0 20px;
-            text-align: center;
+        /* 阳明侠标题 - 左上角紧凑设计 */
+        .saying-header {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            z-index: 20;
         }
         
-        .daily-title {
-            font-size: 1.6em;
+        .saying-title {
+            font-size: 1.2em;
             font-weight: bold;
-            margin-bottom: 12px;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            line-height: 1.4;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
         }
         
+        /* 主要内容区域 - 更大的显示空间 */
+        .saying-content {
+            font-size: 1.3em;
+            color: #f8f8f8;
+            line-height: 1.6;
+            text-align: center;
+            padding: 50px 20px 20px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            min-height: calc(34vh - 40px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        
+        /* 阳明侠头像区域 - 使用AI生成的真实感头像 */
         .ai-character {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            text-align: center;
             width: 100px;
-            height: 100px;
-            position: relative;
         }
         
         .ai-avatar {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2em;
+            margin: 0 auto 8px;
             border: 2px solid #4ecdc4;
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.4);
+            overflow: hidden;
+            background: #2c3e50;
+        }
+        
+        .ai-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: linear-gradient(45deg, #34495e, #2c3e50);
         }
         
         .ai-name {
-            position: absolute;
-            bottom: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            border: 1px solid #4ecdc4;
+            font-size: 1em;
+            font-weight: bold;
+            color: #4ecdc4;
+            text-shadow: 0 0 6px rgba(78, 205, 196, 0.4);
         }
         
         .speech-status {
-            font-size: 1em;
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+            font-size: 0.8em;
+            color: #bdc3c7;
             opacity: 0.9;
         }
         
+        /* 隐藏互动层 */
         .interactive-overlay {
             position: absolute;
-            top: 0;
+            top: 60vh;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 40vh;
             z-index: 100;
             opacity: 0;
             cursor: pointer;
@@ -190,9 +182,9 @@
         .interactive-panel {
             position: absolute;
             bottom: 15px;
-            right: 15px;
+            right: 130px;
             background: rgba(0, 0, 0, 0.9);
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
             border: 1px solid #4ecdc4;
             display: none;
@@ -202,12 +194,12 @@
         .interactive-btn {
             background: linear-gradient(45deg, #667eea, #764ba2);
             border: none;
-            border-radius: 15px;
+            border-radius: 12px;
             color: white;
-            padding: 6px 12px;
-            margin: 4px 0;
+            padding: 5px 10px;
+            margin: 3px 0;
             cursor: pointer;
-            font-size: 0.85em;
+            font-size: 0.8em;
             display: block;
             width: 100%;
         }
@@ -218,36 +210,39 @@
             border: none;
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        
         .speaking {
             animation: textGlow 2s ease-in-out infinite;
         }
         
         @keyframes textGlow {
-            0%, 100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
-            50% { text-shadow: 0 0 15px rgba(78, 205, 196, 0.8); }
+            0%, 100% { 
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+            }
+            50% { 
+                text-shadow: 0 0 12px rgba(255, 255, 255, 0.8),
+                           0 0 20px rgba(78, 205, 196, 0.5);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-2px); }
         }
     </style>
 </head>
 <body>
     <div class="mobile-live-container">
-        <!-- 上部：音乐交易看板 -->
+        <!-- 上部：交易看板 (60%) -->
         <div class="trading-section">
-            <div class="trading-iframe-wrapper">
-                <iframe 
-                    class="embedded-frame" 
-                    id="tradingIframe"
-                    src="https://trading-live-widget.vercel.app/"
-                    allow="autoplay">
-                </iframe>
-            </div>
+            <iframe 
+                class="embedded-frame" 
+                id="tradingIframe"
+                src="https://trading-live-widget.vercel.app/"
+                allow="autoplay">
+            </iframe>
         </div>
         
-        <!-- 中部：新闻滚动条（高度减少） -->
+        <!-- 中部：新闻滚动条 (6%) -->
         <div class="news-section">
             <div class="news-scroll-container">
                 <div class="news-content" id="newsContent">
@@ -256,24 +251,29 @@
             </div>
         </div>
         
-        <!-- 下部：AI内容区域 -->
-        <div class="ai-section">
-            <div class="ai-content">
-                <div class="daily-title" id="dailyTitle">
-                    阳明侠每日一说：智能投资时代，算法交易正在改变市场格局
-                </div>
-                <div class="speech-status" id="speechStatus">
-                    🎙️ AI语音播报准备中...
-                </div>
+        <!-- 下部：内容区域 (34%) -->
+        <div class="content-section">
+            <!-- 阳明侠标题 - 左上角 -->
+            <div class="saying-header">
+                <div class="saying-title">阳明侠每日一说</div>
             </div>
             
+            <!-- 主要内容 -->
+            <div class="saying-content" id="sayingContent">
+                <!-- 每日一说内容由JavaScript动态生成 -->
+            </div>
+            
+            <!-- 阳明侠头像 -->
             <div class="ai-character">
-                <div class="ai-avatar" id="aiAvatar">
-                    🤖
+                <div class="ai-avatar">
+                    <img class="ai-image" id="aiAvatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3" alt="阳明侠">
                 </div>
-                <div class="ai-name">
-                    阳明侠
-                </div>
+                <div class="ai-name">阳明侠</div>
+            </div>
+            
+            <!-- 语音状态 -->
+            <div class="speech-status" id="speechStatus">
+                🎙️ AI语音播报准备中...
             </div>
         </div>
         
@@ -282,6 +282,8 @@
         <div class="interactive-panel" id="interactivePanel">
             <button class="interactive-btn" onclick="toggleSpeech()">🎤 语音开关</button>
             <button class="interactive-btn" onclick="changeTopic()">🔄 切换话题</button>
+            <button class="interactive-btn" onclick="refreshContent()">🔄 刷新内容</button>
+            <button class="interactive-btn" onclick="changeAvatar()">🖼️ 更换头像</button>
         </div>
     </div>
 
@@ -289,48 +291,109 @@
         // 配置
         const CONFIG = {
             tradingBoardUrl: "https://trading-live-widget.vercel.app/",
+            contentUpdateUrl: "",
             autoPlay: true
         };
 
+        // AI头像库 - 使用Unsplash的真实人物照片
+        const avatarLibrary = [
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3", // 青年男性1
+            "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3", // 青年男性2
+            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3", // 青年男性3
+            "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3", // 青年男性4
+            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3"  // 青年男性5
+        ];
+
+        // 阳明侠每日一说内容库 - 更长的内容
+        const dailySayings = [
+            "观市如观心，市场的每一次波动都是投资者情绪的集体映射。真正的智慧不在于预测涨跌，而在于理解市场背后的心理逻辑，在众人贪婪时保持谨慎，在众人恐惧时看到机会。",
+            "投资之道，贵在守正出奇。守正是坚守价值投资的本质，不为短期利益所惑；出奇是在市场异常时敢于逆向思考。只有心静如水，才能在市场的惊涛骇浪中保持方向。",
+            "数字资产的世界如同浩瀚星河，既有璀璨的明星项目，也有转瞬即逝的流星。真正的价值投资者懂得区分噪音与信号，在技术革新与市场泡沫之间找到平衡点。",
+            "区块链技术正在重塑信任的基石，智能合约让承诺变得不可篡改。这不仅是技术的进步，更是商业文明的进化，让诚信从道德约束变为技术保障。",
+            "市场情绪如同潮汐，有涨有落是自然规律。成功的投资者不是与潮汐抗争的勇士，而是懂得顺势而为的冲浪者，在每一个浪头找到最佳的切入时机。",
+            "量化交易是理性与数据的完美结合，但真正的超额收益往往来自对市场人性的深刻理解。算法可以优化执行，但战略需要人类的智慧与直觉。",
+            "去中心化金融正在打破传统金融的壁垒，让每个人都能成为自己财富的真正主人。这是金融民主化的革命，也是个人主权的重要体现。",
+            "在信息爆炸的时代，筛选有价值的信息比获取信息更重要。投资成功的关键往往不是知道得更多，而是能够辨别什么才是真正重要的。"
+        ];
+
         // 新闻数据
         const newsData = [
-            {
-                title: '🚀 比特币突破$118,590，24小时上涨3.28%',
-                source: '实时行情',
-                time: '刚刚'
-            },
-            {
-                title: '💎 以太坊DeFi生态活跃度大幅提升',
-                source: '区块链动态',
-                time: '2分钟前'
-            },
-            {
-                title: '🏦 美联储政策支撑数字资产上涨',
-                source: '政策分析',
-                time: '5分钟前'
-            },
-            {
-                title: '📈 加密货币总市值增长5.3%',
-                source: '市场分析',
-                time: '10分钟前'
-            }
+            { title: '🚀 比特币突破关键阻力位，市场情绪转向乐观', source: '行情分析', time: '实时' },
+            { title: '💎 以太坊2.0升级进展顺利，生态建设加速推进', source: '技术动态', time: '2分钟前' },
+            { title: '🏦 全球央行数字货币竞赛正式拉开序幕', source: '政策观察', time: '5分钟前' },
+            { title: '📊 DeFi总锁仓量再创新高，去中心化金融蓬勃发展', source: '市场数据', time: '10分钟前' }
         ];
+
+        // 内容管理系统
+        class ContentManager {
+            constructor() {
+                this.currentSayingIndex = 0;
+                this.sayings = dailySayings;
+                this.currentAvatarIndex = 0;
+            }
+            
+            getCurrentSaying() {
+                return this.sayings[this.currentSayingIndex];
+            }
+            
+            nextSaying() {
+                this.currentSayingIndex = (this.currentSayingIndex + 1) % this.sayings.length;
+                return this.getCurrentSaying();
+            }
+            
+            getCurrentAvatar() {
+                return avatarLibrary[this.currentAvatarIndex];
+            }
+            
+            nextAvatar() {
+                this.currentAvatarIndex = (this.currentAvatarIndex + 1) % avatarLibrary.length;
+                return this.getCurrentAvatar();
+            }
+            
+            async loadRemoteContent() {
+                if (!CONFIG.contentUpdateUrl) return;
+                try {
+                    const response = await fetch(CONFIG.contentUpdateUrl);
+                    const remoteData = await response.json();
+                    if (remoteData.sayings) this.sayings = remoteData.sayings;
+                    if (remoteData.news) {
+                        newsData.length = 0;
+                        newsData.push(...remoteData.news);
+                    }
+                } catch (error) {
+                    console.log('使用本地内容库');
+                }
+            }
+        }
 
         // 初始化新闻滚动
         function initNewsScroll() {
             const newsContent = document.getElementById('newsContent');
-            
             const newsItemsHTML = newsData.map(news => `
                 <div class="news-item">
                     <div class="news-title">${news.title}</div>
-                    <div class="news-meta">
-                        <span class="news-source">${news.source}</span>
-                        <span class="news-time">${news.time}</span>
-                    </div>
                 </div>
             `).join('');
-            
             newsContent.innerHTML = newsItemsHTML + newsItemsHTML;
+        }
+
+        // 更新内容显示
+        function updateSayingDisplay() {
+            const saying = contentManager.getCurrentSaying();
+            document.getElementById('sayingContent').textContent = saying;
+        }
+
+        // 更新头像显示
+        function updateAvatarDisplay() {
+            const avatarUrl = contentManager.getCurrentAvatar();
+            document.getElementById('aiAvatar').src = avatarUrl;
+        }
+
+        // 更换头像
+        function changeAvatar() {
+            contentManager.nextAvatar();
+            updateAvatarDisplay();
+            interactiveSystem.hidePanel();
         }
 
         // 语音合成系统
@@ -338,30 +401,27 @@
             constructor() {
                 this.synth = window.speechSynthesis;
                 this.isSpeaking = false;
-                this.currentUtterance = null;
             }
             
             speak(text) {
-                if (this.isSpeaking) {
-                    this.stop();
-                }
+                if (this.isSpeaking) this.stop();
                 
-                this.currentUtterance = new SpeechSynthesisUtterance(text);
-                this.currentUtterance.rate = 0.9;
-                this.currentUtterance.pitch = 1;
-                this.currentUtterance.volume = 0.7;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.85;
+                utterance.pitch = 1;
+                utterance.volume = 0.8;
                 
-                this.currentUtterance.onstart = () => {
+                utterance.onstart = () => {
                     this.isSpeaking = true;
                     this.updateSpeechUI(true);
                 };
                 
-                this.currentUtterance.onend = () => {
+                utterance.onend = () => {
                     this.isSpeaking = false;
                     this.updateSpeechUI(false);
                 };
                 
-                this.synth.speak(this.currentUtterance);
+                this.synth.speak(utterance);
             }
             
             stop() {
@@ -373,41 +433,19 @@
             }
             
             updateSpeechUI(speaking) {
-                const title = document.getElementById('dailyTitle');
+                const content = document.getElementById('sayingContent');
                 const status = document.getElementById('speechStatus');
                 const avatar = document.getElementById('aiAvatar');
                 
                 if (speaking) {
-                    title.classList.add('speaking');
-                    status.textContent = '🎙️ AI语音播报中...';
+                    content.classList.add('speaking');
+                    status.textContent = '🎙️ 语音播报中...';
                     avatar.style.animation = 'float 2s ease-in-out infinite';
                 } else {
-                    title.classList.remove('speaking');
-                    status.textContent = '✅ 语音播报完成';
+                    content.classList.remove('speaking');
+                    status.textContent = '✅ 播报完成';
                     avatar.style.animation = 'none';
                 }
-            }
-        }
-
-        // 话题管理系统
-        class TopicManager {
-            constructor() {
-                this.topics = [
-                    "阳明侠每日一说：智能投资时代，算法交易正在改变市场格局",
-                    "阳明侠每日一说：区块链技术不仅仅是加密货币，更是信任的机器", 
-                    "阳明侠每日一说：人工智能在金融风控中的应用前景广阔",
-                    "阳明侠每日一说：DeFi去中心化金融正在重构传统金融体系"
-                ];
-                this.currentIndex = 0;
-            }
-            
-            getCurrentTopic() {
-                return this.topics[this.currentIndex];
-            }
-            
-            nextTopic() {
-                this.currentIndex = (this.currentIndex + 1) % this.topics.length;
-                return this.getCurrentTopic();
             }
         }
 
@@ -421,7 +459,7 @@
                 const overlay = document.getElementById('interactiveOverlay');
                 const panel = document.getElementById('interactivePanel');
                 
-                overlay.addEventListener('dblclick', (e) => {
+                overlay.addEventListener('dblclick', () => {
                     this.togglePanel();
                 });
                 
@@ -446,27 +484,23 @@
         }
 
         // 全局变量
+        let contentManager;
         let speechSystem;
-        let topicManager;
         let interactiveSystem;
         let speechInterval;
 
         // 初始化函数
-        function init() {
-            // 更新iframe地址
-            const iframe = document.getElementById('tradingIframe');
-            iframe.src = CONFIG.tradingBoardUrl;
-
-            // 初始化系统
+        async function init() {
+            contentManager = new ContentManager();
             speechSystem = new SpeechSystem();
-            topicManager = new TopicManager();
             interactiveSystem = new InteractiveSystem();
             
-            // 初始化新闻滚动
+            await contentManager.loadRemoteContent();
             initNewsScroll();
+            updateSayingDisplay();
+            updateAvatarDisplay();
             interactiveSystem.init();
             
-            // 启动自动语音播报
             if (CONFIG.autoPlay) {
                 startAutoSpeech();
             }
@@ -474,18 +508,17 @@
 
         function startAutoSpeech() {
             setTimeout(() => {
-                speakCurrentTopic();
-            }, 3000);
+                speakCurrentSaying();
+            }, 5000);
             
             speechInterval = setInterval(() => {
-                speakCurrentTopic();
-            }, 45000);
+                changeTopic();
+            }, 120000);
         }
 
-        function speakCurrentTopic() {
-            const topic = topicManager.getCurrentTopic();
-            document.getElementById('dailyTitle').textContent = topic;
-            speechSystem.speak(topic);
+        function speakCurrentSaying() {
+            const saying = contentManager.getCurrentSaying();
+            speechSystem.speak(saying);
         }
 
         function toggleSpeech() {
@@ -493,19 +526,28 @@
                 speechSystem.stop();
                 clearInterval(speechInterval);
             } else {
-                speakCurrentTopic();
+                speakCurrentSaying();
                 speechInterval = setInterval(() => {
-                    speakCurrentTopic();
-                }, 45000);
+                    changeTopic();
+                }, 120000);
             }
             interactiveSystem.hidePanel();
         }
 
         function changeTopic() {
             speechSystem.stop();
-            const newTopic = topicManager.nextTopic();
-            document.getElementById('dailyTitle').textContent = newTopic;
-            speechSystem.speak(newTopic);
+            contentManager.nextSaying();
+            updateSayingDisplay();
+            setTimeout(() => {
+                speakCurrentSaying();
+            }, 1000);
+            interactiveSystem.hidePanel();
+        }
+
+        async function refreshContent() {
+            await contentManager.loadRemoteContent();
+            initNewsScroll();
+            updateSayingDisplay();
             interactiveSystem.hidePanel();
         }
 
