@@ -30,7 +30,55 @@
             z-index: 10;
         }
         
-        /* 中部：新闻滚动条 - 精简高度 */
+        /* 黑色遮罩方块 */
+        .mask-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 120px;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 15;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: move;
+            resize: both;
+            overflow: auto;
+            min-width: 80px;
+            min-height: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* 遮罩控制按钮 */
+        .mask-controls {
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .mask-overlay:hover .mask-controls {
+            opacity: 1;
+        }
+        
+        .mask-btn {
+            background: rgba(78, 205, 196, 0.8);
+            border: none;
+            border-radius: 3px;
+            color: white;
+            padding: 2px 6px;
+            font-size: 0.7em;
+            cursor: pointer;
+        }
+        
+        .mask-btn:hover {
+            background: rgba(78, 205, 196, 1);
+        }
+        
+        /* 中部：新闻滚动条 */
         .news-section {
             height: 6vh;
             background: rgba(255, 255, 255, 0.03);
@@ -75,7 +123,7 @@
             100% { transform: translateX(-100%); }
         }
         
-        /* 下部：内容区域 - 占34% */
+        /* 下部：内容区域 */
         .content-section {
             height: 34vh;
             background: rgba(10, 10, 20, 0.85);
@@ -84,7 +132,7 @@
             z-index: 8;
         }
         
-        /* 阳明侠标题 - 左上角紧凑设计 */
+        /* 阳明侠标题 */
         .saying-header {
             position: absolute;
             top: 10px;
@@ -100,10 +148,9 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
         }
         
-        /* 主要内容区域 - 更大的显示空间 */
+        /* 主要内容区域 */
         .saying-content {
             font-size: 1.3em;
             color: #f8f8f8;
@@ -120,7 +167,121 @@
             margin-top: 10px;
         }
         
-        /* 阳明侠头像区域 - 使用AI生成的真实感头像 */
+        /* 音乐控制按钮 - 完全替换原来的按钮 */
+        .music-controls {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            z-index: 25;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 160px;
+        }
+        
+        .music-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border-radius: 25px;
+            border: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        .music-btn i {
+            font-size: 1.1em;
+        }
+        
+        .bgm-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: 2px solid rgba(102, 126, 234, 0.5);
+        }
+        
+        .bgm-btn:hover {
+            background: linear-gradient(135deg, #5a6fd8, #6b4199);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.5);
+        }
+        
+        .bgm-btn.playing {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            border: 2px solid rgba(78, 205, 196, 0.7);
+            box-shadow: 0 0 25px rgba(78, 205, 196, 0.8);
+        }
+        
+        .light-music-btn {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border: 2px solid rgba(240, 147, 251, 0.5);
+        }
+        
+        .light-music-btn:hover {
+            background: linear-gradient(135deg, #e085f0, #e54e64);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(240, 147, 251, 0.5);
+        }
+        
+        .light-music-btn.playing {
+            background: linear-gradient(135deg, #ffd166, #ffb347);
+            border: 2px solid rgba(255, 209, 102, 0.7);
+            box-shadow: 0 0 25px rgba(255, 209, 102, 0.8);
+        }
+        
+        /* 投票计数显示 */
+        .vote-info {
+            position: absolute;
+            top: 110px;
+            right: 15px;
+            font-size: 0.75em;
+            color: #bdc3c7;
+            z-index: 25;
+            width: 160px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 10px 12px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .vote-title {
+            font-size: 0.8em;
+            color: #4ecdc4;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .vote-counts {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+        
+        .vote-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .vote-icon {
+            font-size: 1em;
+        }
+        
+        .vote-number {
+            font-weight: bold;
+            color: #4ecdc4;
+            font-size: 1.1em;
+        }
+        
+        /* 阳明侠头像区域 */
         .ai-character {
             position: absolute;
             right: 20px;
@@ -155,7 +316,6 @@
             font-size: 1em;
             font-weight: bold;
             color: #4ecdc4;
-            text-shadow: 0 0 6px rgba(78, 205, 196, 0.4);
         }
         
         .speech-status {
@@ -228,7 +388,20 @@
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-2px); }
         }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 15px rgba(78, 205, 196, 0.7);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 0 25px rgba(78, 205, 196, 0.9);
+            }
+        }
     </style>
+    <!-- 引入Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="mobile-live-container">
@@ -240,6 +413,15 @@
                 src="https://trading-live-widget.vercel.app/"
                 allow="autoplay">
             </iframe>
+            
+            <!-- 黑色遮罩方块 -->
+            <div class="mask-overlay" id="maskOverlay">
+                <div class="mask-controls">
+                    <button class="mask-btn" onclick="toggleMaskOpacity()">透明度</button>
+                    <button class="mask-btn" onclick="resetMask()">重置</button>
+                    <button class="mask-btn" onclick="toggleMask()">隐藏</button>
+                </div>
+            </div>
         </div>
         
         <!-- 中部：新闻滚动条 (6%) -->
@@ -258,9 +440,35 @@
                 <div class="saying-title">阳明侠每日一说</div>
             </div>
             
+            <!-- 音乐控制按钮 - 只有这两个按钮，完全替换原按钮 -->
+            <div class="music-controls">
+                <button class="music-btn bgm-btn" id="bgmBtn" onclick="toggleBackgroundMusic()">
+                    <i class="fas fa-music"></i> 背景音乐
+                </button>
+                
+                <button class="music-btn light-music-btn" id="lightMusicBtn" onclick="toggleLightMusic()">
+                    <i class="fas fa-headphones"></i> 轻松音乐
+                </button>
+            </div>
+            
+            <!-- 投票信息 -->
+            <div class="vote-info">
+                <div class="vote-title">当前投票</div>
+                <div class="vote-counts">
+                    <div class="vote-item">
+                        <span class="vote-icon">🎵</span>
+                        <span class="vote-number" id="bgmVotes">15</span>
+                    </div>
+                    <div class="vote-item">
+                        <span class="vote-icon">🎧</span>
+                        <span class="vote-number" id="lightMusicVotes">8</span>
+                    </div>
+                </div>
+            </div>
+            
             <!-- 主要内容 -->
             <div class="saying-content" id="sayingContent">
-                <!-- 每日一说内容由JavaScript动态生成 -->
+                观市如观心，市场的每一次波动都是投资者情绪的集体映射。真正的智慧不在于预测涨跌，而在于理解市场背后的心理逻辑，在众人贪婪时保持谨慎，在众人恐惧时看到机会。
             </div>
             
             <!-- 阳明侠头像 -->
@@ -271,7 +479,7 @@
                 <div class="ai-name">阳明侠</div>
             </div>
             
-            <!-- 语音状态 -->
+            <!-- AI语音状态 -->
             <div class="speech-status" id="speechStatus">
                 🎙️ AI语音播报准备中...
             </div>
@@ -280,278 +488,266 @@
         <!-- 隐藏互动层 -->
         <div class="interactive-overlay" id="interactiveOverlay"></div>
         <div class="interactive-panel" id="interactivePanel">
-            <button class="interactive-btn" onclick="toggleSpeech()">🎤 语音开关</button>
-            <button class="interactive-btn" onclick="changeTopic()">🔄 切换话题</button>
-            <button class="interactive-btn" onclick="refreshContent()">🔄 刷新内容</button>
-            <button class="interactive-btn" onclick="changeAvatar()">🖼️ 更换头像</button>
+            <button class="interactive-btn" onclick="changeTopic()">
+                <i class="fas fa-sync-alt"></i> 切换话题
+            </button>
+            <button class="interactive-btn" onclick="refreshContent()">
+                <i class="fas fa-redo"></i> 刷新内容
+            </button>
+            <button class="interactive-btn" onclick="changeAvatar()">
+                <i class="fas fa-user-circle"></i> 更换头像
+            </button>
         </div>
     </div>
 
+    <!-- 音乐文件 -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="lightMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-relaxing-guitar-92.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
-        // 配置
-        const CONFIG = {
-            tradingBoardUrl: "https://trading-live-widget.vercel.app/",
-            contentUpdateUrl: "",
-            autoPlay: true
+        // 初始化投票数据
+        let votes = {
+            background: 15,
+            light: 8
         };
 
-        // AI头像库 - 使用Unsplash的真实人物照片
-        const avatarLibrary = [
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3", // 青年男性1
-            "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3", // 青年男性2
-            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3", // 青年男性3
-            "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3", // 青年男性4
-            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3"  // 青年男性5
-        ];
+        // 音乐状态
+        let currentMusic = null;
+        let backgroundMusicPlaying = false;
+        let lightMusicPlaying = false;
 
-        // 阳明侠每日一说内容库 - 更长的内容
-        const dailySayings = [
-            "观市如观心，市场的每一次波动都是投资者情绪的集体映射。真正的智慧不在于预测涨跌，而在于理解市场背后的心理逻辑，在众人贪婪时保持谨慎，在众人恐惧时看到机会。",
-            "投资之道，贵在守正出奇。守正是坚守价值投资的本质，不为短期利益所惑；出奇是在市场异常时敢于逆向思考。只有心静如水，才能在市场的惊涛骇浪中保持方向。",
-            "数字资产的世界如同浩瀚星河，既有璀璨的明星项目，也有转瞬即逝的流星。真正的价值投资者懂得区分噪音与信号，在技术革新与市场泡沫之间找到平衡点。",
-            "区块链技术正在重塑信任的基石，智能合约让承诺变得不可篡改。这不仅是技术的进步，更是商业文明的进化，让诚信从道德约束变为技术保障。",
-            "市场情绪如同潮汐，有涨有落是自然规律。成功的投资者不是与潮汐抗争的勇士，而是懂得顺势而为的冲浪者，在每一个浪头找到最佳的切入时机。",
-            "量化交易是理性与数据的完美结合，但真正的超额收益往往来自对市场人性的深刻理解。算法可以优化执行，但战略需要人类的智慧与直觉。",
-            "去中心化金融正在打破传统金融的壁垒，让每个人都能成为自己财富的真正主人。这是金融民主化的革命，也是个人主权的重要体现。",
-            "在信息爆炸的时代，筛选有价值的信息比获取信息更重要。投资成功的关键往往不是知道得更多，而是能够辨别什么才是真正重要的。"
-        ];
+        // 获取DOM元素
+        const bgmBtn = document.getElementById('bgmBtn');
+        const lightMusicBtn = document.getElementById('lightMusicBtn');
+        const bgmVotesElement = document.getElementById('bgmVotes');
+        const lightMusicVotesElement = document.getElementById('lightMusicVotes');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const lightMusic = document.getElementById('lightMusic');
 
-        // 新闻数据
-        const newsData = [
-            { title: '🚀 比特币突破关键阻力位，市场情绪转向乐观', source: '行情分析', time: '实时' },
-            { title: '💎 以太坊2.0升级进展顺利，生态建设加速推进', source: '技术动态', time: '2分钟前' },
-            { title: '🏦 全球央行数字货币竞赛正式拉开序幕', source: '政策观察', time: '5分钟前' },
-            { title: '📊 DeFi总锁仓量再创新高，去中心化金融蓬勃发展', source: '市场数据', time: '10分钟前' }
-        ];
-
-        // 内容管理系统
-        class ContentManager {
-            constructor() {
-                this.currentSayingIndex = 0;
-                this.sayings = dailySayings;
-                this.currentAvatarIndex = 0;
-            }
-            
-            getCurrentSaying() {
-                return this.sayings[this.currentSayingIndex];
-            }
-            
-            nextSaying() {
-                this.currentSayingIndex = (this.currentSayingIndex + 1) % this.sayings.length;
-                return this.getCurrentSaying();
-            }
-            
-            getCurrentAvatar() {
-                return avatarLibrary[this.currentAvatarIndex];
-            }
-            
-            nextAvatar() {
-                this.currentAvatarIndex = (this.currentAvatarIndex + 1) % avatarLibrary.length;
-                return this.getCurrentAvatar();
-            }
-            
-            async loadRemoteContent() {
-                if (!CONFIG.contentUpdateUrl) return;
-                try {
-                    const response = await fetch(CONFIG.contentUpdateUrl);
-                    const remoteData = await response.json();
-                    if (remoteData.sayings) this.sayings = remoteData.sayings;
-                    if (remoteData.news) {
-                        newsData.length = 0;
-                        newsData.push(...remoteData.news);
-                    }
-                } catch (error) {
-                    console.log('使用本地内容库');
-                }
-            }
-        }
-
-        // 初始化新闻滚动
-        function initNewsScroll() {
-            const newsContent = document.getElementById('newsContent');
-            const newsItemsHTML = newsData.map(news => `
-                <div class="news-item">
-                    <div class="news-title">${news.title}</div>
-                </div>
-            `).join('');
-            newsContent.innerHTML = newsItemsHTML + newsItemsHTML;
-        }
-
-        // 更新内容显示
-        function updateSayingDisplay() {
-            const saying = contentManager.getCurrentSaying();
-            document.getElementById('sayingContent').textContent = saying;
-        }
-
-        // 更新头像显示
-        function updateAvatarDisplay() {
-            const avatarUrl = contentManager.getCurrentAvatar();
-            document.getElementById('aiAvatar').src = avatarUrl;
-        }
-
-        // 更换头像
-        function changeAvatar() {
-            contentManager.nextAvatar();
-            updateAvatarDisplay();
-            interactiveSystem.hidePanel();
-        }
-
-        // 语音合成系统
-        class SpeechSystem {
-            constructor() {
-                this.synth = window.speechSynthesis;
-                this.isSpeaking = false;
-            }
-            
-            speak(text) {
-                if (this.isSpeaking) this.stop();
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.rate = 0.85;
-                utterance.pitch = 1;
-                utterance.volume = 0.8;
-                
-                utterance.onstart = () => {
-                    this.isSpeaking = true;
-                    this.updateSpeechUI(true);
-                };
-                
-                utterance.onend = () => {
-                    this.isSpeaking = false;
-                    this.updateSpeechUI(false);
-                };
-                
-                this.synth.speak(utterance);
-            }
-            
-            stop() {
-                if (this.isSpeaking) {
-                    this.synth.cancel();
-                    this.isSpeaking = false;
-                    this.updateSpeechUI(false);
-                }
-            }
-            
-            updateSpeechUI(speaking) {
-                const content = document.getElementById('sayingContent');
-                const status = document.getElementById('speechStatus');
-                const avatar = document.getElementById('aiAvatar');
-                
-                if (speaking) {
-                    content.classList.add('speaking');
-                    status.textContent = '🎙️ 语音播报中...';
-                    avatar.style.animation = 'float 2s ease-in-out infinite';
-                } else {
-                    content.classList.remove('speaking');
-                    status.textContent = '✅ 播报完成';
-                    avatar.style.animation = 'none';
-                }
-            }
-        }
-
-        // 互动系统
-        class InteractiveSystem {
-            constructor() {
-                this.isPanelVisible = false;
-            }
-            
-            init() {
-                const overlay = document.getElementById('interactiveOverlay');
-                const panel = document.getElementById('interactivePanel');
-                
-                overlay.addEventListener('dblclick', () => {
-                    this.togglePanel();
-                });
-                
-                document.addEventListener('click', (e) => {
-                    if (!panel.contains(e.target) && !overlay.contains(e.target)) {
-                        this.hidePanel();
-                    }
-                });
-            }
-            
-            togglePanel() {
-                const panel = document.getElementById('interactivePanel');
-                this.isPanelVisible = !this.isPanelVisible;
-                panel.style.display = this.isPanelVisible ? 'block' : 'none';
-            }
-            
-            hidePanel() {
-                const panel = document.getElementById('interactivePanel');
-                panel.style.display = 'none';
-                this.isPanelVisible = false;
-            }
-        }
-
-        // 全局变量
-        let contentManager;
-        let speechSystem;
-        let interactiveSystem;
-        let speechInterval;
+        // 设置音量
+        backgroundMusic.volume = 0.3;
+        lightMusic.volume = 0.4;
 
         // 初始化函数
-        async function init() {
-            contentManager = new ContentManager();
-            speechSystem = new SpeechSystem();
-            interactiveSystem = new InteractiveSystem();
+        function initMusicSystem() {
+            // 更新投票显示
+            updateVoteDisplay();
             
-            await contentManager.loadRemoteContent();
-            initNewsScroll();
-            updateSayingDisplay();
-            updateAvatarDisplay();
-            interactiveSystem.init();
-            
-            if (CONFIG.autoPlay) {
-                startAutoSpeech();
-            }
-        }
-
-        function startAutoSpeech() {
+            // 默认播放投票多的音乐
             setTimeout(() => {
-                speakCurrentSaying();
-            }, 5000);
-            
-            speechInterval = setInterval(() => {
-                changeTopic();
-            }, 120000);
-        }
-
-        function speakCurrentSaying() {
-            const saying = contentManager.getCurrentSaying();
-            speechSystem.speak(saying);
-        }
-
-        function toggleSpeech() {
-            if (speechSystem.isSpeaking) {
-                speechSystem.stop();
-                clearInterval(speechInterval);
-            } else {
-                speakCurrentSaying();
-                speechInterval = setInterval(() => {
-                    changeTopic();
-                }, 120000);
-            }
-            interactiveSystem.hidePanel();
-        }
-
-        function changeTopic() {
-            speechSystem.stop();
-            contentManager.nextSaying();
-            updateSayingDisplay();
-            setTimeout(() => {
-                speakCurrentSaying();
+                playMostVotedMusic();
             }, 1000);
-            interactiveSystem.hidePanel();
+            
+            // 设置循环播放
+            backgroundMusic.addEventListener('ended', () => {
+                if (backgroundMusicPlaying) {
+                    backgroundMusic.currentTime = 0;
+                    backgroundMusic.play();
+                }
+            });
+            
+            lightMusic.addEventListener('ended', () => {
+                if (lightMusicPlaying) {
+                    lightMusic.currentTime = 0;
+                    lightMusic.play();
+                }
+            });
         }
 
-        async function refreshContent() {
-            await contentManager.loadRemoteContent();
-            initNewsScroll();
-            updateSayingDisplay();
-            interactiveSystem.hidePanel();
+        // 播放投票多的音乐
+        function playMostVotedMusic() {
+            if (votes.background >= votes.light) {
+                playBackgroundMusic();
+            } else {
+                playLightMusic();
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', init);
+        // 播放背景音乐
+        function playBackgroundMusic() {
+            // 停止其他音乐
+            stopLightMusic();
+            
+            // 播放背景音乐
+            backgroundMusic.play()
+                .then(() => {
+                    backgroundMusicPlaying = true;
+                    currentMusic = 'background';
+                    updateButtonStates();
+                })
+                .catch(error => {
+                    console.log('背景音乐需要用户交互:', error);
+                    bgmBtn.innerHTML = '<i class="fas fa-play"></i> 点击播放背景音乐';
+                });
+        }
+
+        // 停止背景音乐
+        function stopBackgroundMusic() {
+            backgroundMusic.pause();
+            backgroundMusic.currentTime = 0;
+            backgroundMusicPlaying = false;
+            if (currentMusic === 'background') {
+                currentMusic = null;
+            }
+            updateButtonStates();
+        }
+
+        // 播放轻松音乐
+        function playLightMusic() {
+            // 停止其他音乐
+            stopBackgroundMusic();
+            
+            // 播放轻松音乐
+            lightMusic.play()
+                .then(() => {
+                    lightMusicPlaying = true;
+                    currentMusic = 'light';
+                    updateButtonStates();
+                })
+                .catch(error => {
+                    console.log('轻松音乐需要用户交互:', error);
+                    lightMusicBtn.innerHTML = '<i class="fas fa-play"></i> 点击播放轻松音乐';
+                });
+        }
+
+        // 停止轻松音乐
+        function stopLightMusic() {
+            lightMusic.pause();
+            lightMusic.currentTime = 0;
+            lightMusicPlaying = false;
+            if (currentMusic === 'light') {
+                currentMusic = null;
+            }
+            updateButtonStates();
+        }
+
+        // 切换背景音乐
+        function toggleBackgroundMusic() {
+            if (backgroundMusicPlaying) {
+                stopBackgroundMusic();
+            } else {
+                playBackgroundMusic();
+                // 增加投票数
+                votes.background++;
+                updateVoteDisplay();
+            }
+        }
+
+        // 切换轻松音乐
+        function toggleLightMusic() {
+            if (lightMusicPlaying) {
+                stopLightMusic();
+            } else {
+                playLightMusic();
+                // 增加投票数
+                votes.light++;
+                updateVoteDisplay();
+            }
+        }
+
+        // 更新按钮状态
+        function updateButtonStates() {
+            // 背景音乐按钮
+            if (backgroundMusicPlaying) {
+                bgmBtn.classList.add('playing');
+                bgmBtn.innerHTML = '<i class="fas fa-pause"></i> 背景音乐';
+                bgmBtn.style.animation = 'pulse 2s ease-in-out infinite';
+            } else {
+                bgmBtn.classList.remove('playing');
+                bgmBtn.innerHTML = '<i class="fas fa-music"></i> 背景音乐';
+                bgmBtn.style.animation = 'none';
+            }
+            
+            // 轻松音乐按钮
+            if (lightMusicPlaying) {
+                lightMusicBtn.classList.add('playing');
+                lightMusicBtn.innerHTML = '<i class="fas fa-pause"></i> 轻松音乐';
+                lightMusicBtn.style.animation = 'pulse 2s ease-in-out infinite';
+            } else {
+                lightMusicBtn.classList.remove('playing');
+                lightMusicBtn.innerHTML = '<i class="fas fa-headphones"></i> 轻松音乐';
+                lightMusicBtn.style.animation = 'none';
+            }
+        }
+
+        // 更新投票显示
+        function updateVoteDisplay() {
+            bgmVotesElement.textContent = votes.background;
+            lightMusicVotesElement.textContent = votes.light;
+        }
+
+        // 页面加载时初始化音乐系统
+        document.addEventListener('DOMContentLoaded', initMusicSystem);
+
+        // 遮罩控制函数
+        function toggleMaskOpacity() {
+            const mask = document.getElementById('maskOverlay');
+            const currentOpacity = window.getComputedStyle(mask).backgroundColor;
+            const opacityLevels = [0.95, 0.7, 0.5];
+            let currentLevel = 0.95;
+            
+            // 获取当前透明度
+            const match = currentOpacity.match(/rgba?\(.*?,(.*?)\)/);
+            if (match) {
+                currentLevel = parseFloat(match[1]);
+            }
+            
+            // 切换到下一个透明度
+            const currentIndex = opacityLevels.indexOf(currentLevel);
+            const nextIndex = (currentIndex + 1) % opacityLevels.length;
+            const newOpacity = opacityLevels[nextIndex];
+            
+            mask.style.backgroundColor = `rgba(0, 0, 0, ${newOpacity})`;
+        }
+        
+        function resetMask() {
+            const mask = document.getElementById('maskOverlay');
+            mask.style.width = '120px';
+            mask.style.height = '60px';
+            mask.style.left = 'auto';
+            mask.style.top = '20px';
+            mask.style.right = '20px';
+            mask.style.bottom = 'auto';
+            mask.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+        }
+        
+        function toggleMask() {
+            const mask = document.getElementById('maskOverlay');
+            mask.style.display = mask.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // 其他功能函数（简化版）
+        function changeTopic() {
+            const sayings = [
+                "观市如观心，市场的每一次波动都是投资者情绪的集体映射。真正的智慧不在于预测涨跌，而在于理解市场背后的心理逻辑，在众人贪婪时保持谨慎，在众人恐惧时看到机会。",
+                "投资之道，贵在守正出奇。守正是坚守价值投资的本质，不为短期利益所惑；出奇是在市场异常时敢于逆向思考。只有心静如水，才能在市场的惊涛骇浪中保持方向。",
+                "数字资产的世界如同浩瀚星河，既有璀璨的明星项目，也有转瞬即逝的流星。真正的价值投资者懂得区分噪音与信号，在技术革新与市场泡沫之间找到平衡点。"
+            ];
+            
+            const randomIndex = Math.floor(Math.random() * sayings.length);
+            document.getElementById('sayingContent').textContent = sayings[randomIndex];
+        }
+
+        function refreshContent() {
+            // 简单刷新内容
+            changeTopic();
+        }
+
+        function changeAvatar() {
+            const avatars = [
+                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3",
+                "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3",
+                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face&fp-x=0.5&fp-y=0.5&fp-z=1&facepad=3"
+            ];
+            
+            const randomIndex = Math.floor(Math.random() * avatars.length);
+            document.getElementById('aiAvatar').src = avatars[randomIndex];
+        }
     </script>
 </body>
 </html>
